@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "achievemint"
+version = "0.1.0"
+description = "Python client for the Achievemint API"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.25.0",
+]
+authors = [
+    { name = "Adam Townsend", email = "townsend.adam.f@gmail.com" }
+]
+
+[tool.setuptools.packages.find]
+include = ["achievemint*"]
