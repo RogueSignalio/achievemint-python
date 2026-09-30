@@ -5,6 +5,12 @@ This is a client library to interact with the Achieve Mint API
 
 ## Installation
 
+Set up venv
+`python3 -m venv venv/`
+
+Activate venv
+`source venv/bin/activate`
+
 Install build to build the library
 `pip install build`
 
