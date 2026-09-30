@@ -1,6 +1,7 @@
 import requests
 import json
 from datetime import datetime, timedelta
+from achievemint.errors import AuthenticationError, NotFoundError, ApiError, ClientError
 
 class Client:
     def __init__(self, client_id, client_secret, url='https://api.achievemint.net', auth_path='/oauth/token'):
@@ -12,7 +13,7 @@ class Client:
 
         self.authenticate()
 
-    
+
     def send_request(self, path, params, response_obj):
         self.refresh_token()
         headers = {
@@ -21,7 +22,12 @@ class Client:
             'Authorization': f'{self.token_type} {self.token}'
         }
         response = requests.post(f'{self.api_url}{self.path_version}{path}', headers=headers, data=json.dumps(params))
-        response_data = response.json()
+        try:
+            response_data = response.json()
+
+        except ValueError:
+          raise ClientError('Invalid response')
+
         if response_obj not in response_data:
             return response_data
         else:
@@ -54,7 +60,14 @@ class Client:
             'client_secret': self.client_secret
         }
         response = requests.post(f'{self.api_url}{self.auth_path}', headers={'Content-Type': 'application/json'}, data=json.dumps(body))
-        response_obj = response.json()
+        try:
+            response_obj = response.json()
+        except ValueError:
+          raise AuthenticationError('Invalid response')
+
+        if 'error' in response_obj:
+          raise AuthenticationError(response_obj['error_description'])
+
         self.token = response_obj['access_token']
         self.expires_at = datetime.now() + timedelta(seconds=response_obj['expires_in'])
         self.token_type = response_obj['token_type']
