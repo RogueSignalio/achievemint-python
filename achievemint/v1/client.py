@@ -22,8 +22,15 @@ class Client:
             'Authorization': f'{self.token_type} {self.token}'
         }
         response = requests.post(f'{self.api_url}{self.path_version}{path}', headers=headers, data=json.dumps(params))
+
+        if 404 == response.status_code:
+            raise ClientError(f"Invalid Path: {self.path_version}{path}")
+
+        if 204 == response.status_code:
+            return []
+
         try:
-            response_data = response.json()
+          response_data = response.json()
 
         except ValueError:
           raise ClientError('Invalid response')
