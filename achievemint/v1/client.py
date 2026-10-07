@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from achievemint.errors import AuthenticationError, NotFoundError, ApiError, ClientError
 
 class Client:
-    def __init__(self, client_id, client_secret, url='https://api.achievemint.net', auth_path='/oauth/token'):
+    def __init__(self, client_id, client_secret, url='https://achievemint.net:8443', auth_path='/oauth/token'):
         self.api_url = url
         self.client_id = client_id
         self.client_secret = client_secret
