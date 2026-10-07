@@ -29,8 +29,7 @@ from achievemint.v1.client import Client
 
 cliet = Client(
     client_id='your_client_id',
-    client_secret='your_client_secret',
-    url='your_url'
+    client_secret='your_client_secret'
 )
 
 client.get_user(100)
